@@ -1,29 +1,37 @@
 import pygame
+from screen import GameScreen
+from jedi import Jedi
+from dark_side import DarkSide
+
 
 pygame.init()
 
-# setting up screen
-SCREEN_WIDTH = 860
-SCREEN_HEIGHT = 950
-game_screen = pygame.display.set_mode ((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = GameScreen()
+jedi = Jedi()
+darkside = DarkSide()
 
-# setting background pic
-background_pic_path = "static/background-pic.jpg"
-background_image = pygame.image.load(background_pic_path)
-background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+screen.load_image()
+jedi.load_image()
+darkside.load_image()
 
-clock = pygame.time.Clock()
+pressed_keys = pygame.key.get_pressed()
+
 running = True
-
 while running:
-    # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
+    keys = pygame.key.get_pressed()
 
-    game_screen.blit(background_image, (0, 0))
+    if keys:
+        jedi.move(keys=keys)
+
+    screen.draw()
+    jedi.draw(screen=screen.game_screen)
+    darkside.draw(screen=screen.game_screen)
+
     pygame.display.update()
-    clock.tick(60)
+    screen.clock.tick(60)
 
 pygame.quit()
