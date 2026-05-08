@@ -23,9 +23,9 @@ while running:
             running = False
 
     keys = pygame.key.get_pressed()
-
-    if keys:
-        jedi.move(keys=keys)
+    jedi.move(keys=keys)
+    jedi.shoot()
+    jedi.update_bullets()
 
     screen.draw()
     jedi.draw(screen=screen.game_screen)
