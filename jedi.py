@@ -48,3 +48,4 @@ class Jedi:
         screen.blit(self.image, (self.x, self.y))
         for bullet in self.bullets:
             pygame.draw.rect(screen, (255, 255, 0), (bullet[0], bullet[1], 4, 12))
+
