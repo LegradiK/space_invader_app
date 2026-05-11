@@ -1,11 +1,23 @@
 import pygame
-from config import SCREEN_WIDTH, SCREEN_HEIGHT
+from config import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_FONT
 
 class DarkSide:
     ICON_SIZE = 54
     ROWS = 5
     COLUMNS = 11
     SPEED = 1.6
+
+    # These are set later via load_class_assets() to avoid pre-init crash
+    droid = None
+    darth_vader = None
+
+    @classmethod
+    def load_class_assets(cls):
+        """Call once after pygame.init() to load shared class-level images."""
+        cls.droid = pygame.image.load("static/droid.png").convert_alpha()
+        cls.droid = pygame.transform.scale(cls.droid, (cls.ICON_SIZE, cls.ICON_SIZE))
+        cls.darth_vader = pygame.image.load("static/dark.png").convert_alpha()
+        cls.darth_vader = pygame.transform.scale(cls.darth_vader, (cls.ICON_SIZE, cls.ICON_SIZE))
 
     def __init__(self):
         self.image = None
@@ -14,25 +26,23 @@ class DarkSide:
         self.drop_distance = 20
 
     def load_image(self):
-        # load and resize enemy (dark side)
         image = pygame.image.load("static/tie-fighter.png").convert_alpha()
         self.image = pygame.transform.scale(image, (DarkSide.ICON_SIZE, DarkSide.ICON_SIZE))
         self.build_fleet()
-    
-    def build_fleet(self):
-        total_width = DarkSide.COLUMNS * (DarkSide.ICON_SIZE)
-        start_x = (SCREEN_WIDTH - total_width) // 2
 
+    def build_fleet(self):
+        total_width = DarkSide.COLUMNS * DarkSide.ICON_SIZE
+        start_x = (SCREEN_WIDTH - total_width) // 2
         for row in range(DarkSide.ROWS):
             for col in range(DarkSide.COLUMNS):
-                x = start_x + col * (DarkSide.ICON_SIZE)
-                y = 30 + row * (DarkSide.ICON_SIZE)
+                x = start_x + col * DarkSide.ICON_SIZE
+                y = 40 + row * DarkSide.ICON_SIZE
                 self.fleet.append([x, y])
 
     def draw(self, screen):
         for x, y in self.fleet:
             screen.blit(self.image, (x, y))
-    
+
     def move(self):
         hit_wall = False
         for pos in self.fleet:
@@ -44,11 +54,30 @@ class DarkSide:
                 break
 
         if hit_wall:
-            # Drop down and reverse direction
             for pos in self.fleet:
                 pos[1] += self.drop_distance
             self.direction *= -1
         else:
-            # Move horizontally
             for pos in self.fleet:
                 pos[0] += DarkSide.SPEED * self.direction
+
+    def winning_message(self, screen):  
+        text_surface, rect = GAME_FONT.render("Dark Side won", (188, 30, 34), size=52)
+
+        gap = 10
+        total_width = DarkSide.ICON_SIZE + gap + text_surface.get_width() + gap + DarkSide.ICON_SIZE
+        start_x = SCREEN_WIDTH // 2 - total_width // 2
+        center_y = SCREEN_HEIGHT // 2 - DarkSide.ICON_SIZE // 2
+
+        screen.game_screen.blit(DarkSide.darth_vader, (start_x, center_y))
+        screen.game_screen.blit(
+            text_surface,
+            (start_x + DarkSide.ICON_SIZE + gap, center_y + DarkSide.ICON_SIZE // 2 - text_surface.get_height() // 2)
+        )
+        screen.game_screen.blit(
+            DarkSide.droid,
+            (start_x + DarkSide.ICON_SIZE + gap + text_surface.get_width() + gap, center_y)
+        )
+
+        pygame.display.update()
+        pygame.time.wait(3000)

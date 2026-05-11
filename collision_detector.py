@@ -8,7 +8,7 @@ class CollisionDetector:
     @staticmethod
     def load_image():
         image = pygame.image.load("static/explode.png").convert_alpha()
-        CollisionDetector.explosion_image = pygame.transform.scale(image, (64, 64))
+        CollisionDetector.explosion_image = pygame.transform.scale(image, (58, 58))
 
     @staticmethod
     def check_bullet_hits(jedi, dark_side):
