@@ -7,13 +7,16 @@ class Jedi:
     BULLET_SPEED = 3
     BULLET_COOLDOWN = 900   
 
+    luke = None
+    padme = None
+
     @classmethod
     def load_class_assets(cls):
         """Call once after pygame.init() to load shared class-level images."""
-        padme = pygame.image.load("static/padme.png").convert_alpha()
-        padme = pygame.transform.scale(padme, (Jedi.ICON_SIZE, Jedi.ICON_SIZE))
-        luke = pygame.image.load("static/luke.png").convert_alpha()
-        luke = pygame.transform.scale(luke, (Jedi.ICON_SIZE, Jedi.ICON_SIZE))
+        cls.padme = pygame.image.load("static/padme.png").convert_alpha()
+        cls.padme = pygame.transform.scale(cls.padme, (Jedi.ICON_SIZE, Jedi.ICON_SIZE))
+        cls.luke = pygame.image.load("static/luke.png").convert_alpha()
+        cls.luke = pygame.transform.scale(cls.luke, (Jedi.ICON_SIZE, Jedi.ICON_SIZE))
 
     def __init__(self):
         self.image = None
@@ -58,11 +61,13 @@ class Jedi:
             pygame.draw.rect(screen, (255, 255, 0), (bullet[0], bullet[1], 4, 12))
 
     def winning_message(self, screen):
-        text_surface, rect = GAME_FONT.render("Jedi won!", (255, 232, 31), size=52)
+        text_surface, _ = GAME_FONT.render("Jedi won!", (255, 232, 31), size=52)
         gap = 10
         total_width = Jedi.ICON_SIZE + gap + text_surface.get_width() + gap + Jedi.ICON_SIZE
         start_x = SCREEN_WIDTH // 2 - total_width // 2
         center_y = SCREEN_HEIGHT // 2 - Jedi.ICON_SIZE // 2
+
+        text_surface2, _ = GAME_FONT.render("Play again? Press 'space'..", (255, 232, 31), size=52)
 
         screen.game_screen.blit(Jedi.luke, (start_x, center_y))
         screen.game_screen.blit(
@@ -72,5 +77,9 @@ class Jedi:
         screen.game_screen.blit(
             Jedi.padme,
             (start_x + Jedi.ICON_SIZE + gap + text_surface.get_width() + gap, center_y)
+        )
+        screen.game_screen.blit(
+            text_surface2,
+            (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - text_surface.get_height())
         )
 

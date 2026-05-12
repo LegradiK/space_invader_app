@@ -5,7 +5,8 @@ class DarkSide:
     ICON_SIZE = 54
     ROWS = 5
     COLUMNS = 11
-    SPEED = 1.6
+    SPEED = 5
+    # SPEED = 1.6
 
     # These are set later via load_class_assets() to avoid pre-init crash
     droid = None
@@ -67,7 +68,7 @@ class DarkSide:
         gap = 10
         total_width = DarkSide.ICON_SIZE + gap + text_surface.get_width() + gap + DarkSide.ICON_SIZE
         start_x = SCREEN_WIDTH // 2 - total_width // 2
-        center_y = SCREEN_HEIGHT // 2 - DarkSide.ICON_SIZE // 2
+        center_y = SCREEN_HEIGHT // 2 - DarkSide.ICON_SIZE // 2 - 40
 
         screen.game_screen.blit(DarkSide.darth_vader, (start_x, center_y))
         screen.game_screen.blit(
@@ -80,4 +81,3 @@ class DarkSide:
         )
 
         pygame.display.update()
-        pygame.time.wait(3000)
