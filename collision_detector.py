@@ -52,11 +52,13 @@ class CollisionDetector:
         return False
 
     @staticmethod
-    def check_player_hit(jedi, dark_side):
-        """For later — enemy bullets hitting the Jedi."""
-        player_rect = pygame.Rect(jedi.x, jedi.y, jedi.ICON_SIZE, jedi.ICON_SIZE)
-        for bullet in dark_side.bullets:  # when you add enemy shooting
-            bullet_rect = pygame.Rect(bullet[0], bullet[1], 4, 12)
-            if bullet_rect.colliderect(player_rect):
+    def check_enemy_bullets_hit_jedi(jedi, darkside):
+        """Only relevant for hard mode. Returns True if jedi is hit."""
+        if not hasattr(darkside, 'bullets'):
+            return False
+        jedi_rect = pygame.Rect(jedi.x, jedi.y, jedi.ICON_SIZE, jedi.ICON_SIZE)
+        for b in darkside.bullets:
+            if jedi_rect.collidepoint(b[0], b[1]):
+                darkside.bullets.remove(b)
                 return True
         return False

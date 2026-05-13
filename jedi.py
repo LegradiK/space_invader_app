@@ -61,13 +61,13 @@ class Jedi:
             pygame.draw.rect(screen, (255, 255, 0), (bullet[0], bullet[1], 4, 12))
 
     def winning_message(self, screen):
-        text_surface, _ = GAME_FONT.render("Jedi won!", (255, 232, 31), size=52)
+        text_surface, _ = GAME_FONT.render("Hope has returned to the galaxy.", (255, 232, 31), size=32)
         gap = 10
         total_width = Jedi.ICON_SIZE + gap + text_surface.get_width() + gap + Jedi.ICON_SIZE
         start_x = SCREEN_WIDTH // 2 - total_width // 2
-        center_y = SCREEN_HEIGHT // 2 - Jedi.ICON_SIZE // 2
+        center_y = SCREEN_HEIGHT // 2 - 150
 
-        text_surface2, _ = GAME_FONT.render("Play again? Press 'space'..", (255, 232, 31), size=52)
+
 
         screen.game_screen.blit(Jedi.luke, (start_x, center_y))
         screen.game_screen.blit(
@@ -78,8 +78,5 @@ class Jedi:
             Jedi.padme,
             (start_x + Jedi.ICON_SIZE + gap + text_surface.get_width() + gap, center_y)
         )
-        screen.game_screen.blit(
-            text_surface2,
-            (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - text_surface.get_height())
-        )
+
 
