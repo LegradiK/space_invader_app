@@ -38,6 +38,8 @@ def wait_for_replay(screen, game_over=False):
             if event.type == pygame.QUIT:
                 return False
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return False
                 if event.key in (pygame.K_SPACE, pygame.K_RETURN):
                     screen.draw()
                     lines = [
@@ -64,6 +66,9 @@ def play_round(screen, jedi, darkside, light_saber, life_surface, life_num, scor
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return score, life_num, 'quit'
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return score, life_num, 'quit'
 
         keys = pygame.key.get_pressed()
         jedi.move(keys=keys)
