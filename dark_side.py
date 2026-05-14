@@ -14,7 +14,7 @@ class DarkSide:
         cls.darth_vader = pygame.image.load("static/dark.png").convert_alpha()
         cls.darth_vader = pygame.transform.scale(cls.darth_vader, (cls.ICON_SIZE, cls.ICON_SIZE))
 
-    def __init__(self, speed=5, rows=5):
+    def __init__(self, speed=1.6, rows=5):
         self.image = None
         self.fleet = []
         self.direction = 1

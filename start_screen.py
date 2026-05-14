@@ -2,8 +2,8 @@ import pygame
 from config import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_FONT
 
 DIFFICULTIES = {
-    'EASY':   {'speed': 3, 'rows': 3, 'mode': 'easy'},
-    'MEDIUM': {'speed': 3, 'rows': 5, 'mode': 'medium'},
+    'EASY':   {'speed': 1.6, 'rows': 3, 'mode': 'easy'},
+    'MEDIUM': {'speed': 2, 'rows': 5, 'mode': 'medium'},
     'HARD':   {'speed': 3, 'rows': 5, 'mode': 'hard'},
 }
 
@@ -44,9 +44,9 @@ def show_start_screen(screen):
             ))
 
         desc_lines = {
-            'easy':   ["3 rows of enemies"],
-            'medium': ["5 rows of enemies"],
-            'hard':   ["5 rows of enemies", "Tie Bombers that shoot"],
+            'easy':   ["3 rows of enemies", "slow pace"],
+            'medium': ["5 rows of enemies", "medium pace"],
+            'hard':   ["5 rows of enemies", "fast pace", "Tie fighters that shoot"],
         }
         for j, line in enumerate(desc_lines[options[selected].lower()]):
             desc, _ = GAME_FONT.render(line, (200, 200, 200), size=22)
@@ -65,7 +65,7 @@ def show_start_screen(screen):
                     selected = (selected - 1) % len(options)
                 if event.key == pygame.K_RIGHT:
                     selected = (selected + 1) % len(options)
-                if event.key == pygame.K_SPACE:
+                if event.key in (pygame.K_SPACE, pygame.K_RETURN):
                     return DIFFICULTIES[options[selected]]
                 if event.key == pygame.K_ESCAPE:
                     return None

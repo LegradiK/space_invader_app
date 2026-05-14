@@ -60,5 +60,6 @@ class CollisionDetector:
         for b in darkside.bullets:
             if jedi_rect.collidepoint(b[0], b[1]):
                 darkside.bullets.remove(b)
+                CollisionDetector.explosions.append([jedi.x, jedi.y, pygame.time.get_ticks()])
                 return True
         return False

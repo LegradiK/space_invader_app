@@ -13,7 +13,8 @@ def wait_for_replay(screen, game_over=False):
         "Another chapter has come to an end.",
         "But the journey continues.",
         "",
-        "Press SPACE to begin your adventure once more."
+        "Press space or enter",
+        "to begin your adventure once more."
     ]
 
     if game_over:
@@ -36,7 +37,7 @@ def wait_for_replay(screen, game_over=False):
             if event.type == pygame.QUIT:
                 return False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key in (pygame.K_SPACE, pygame.K_RETURN):
                     screen.draw()
                     lines = [
                         "Your journey restarts",
@@ -82,7 +83,6 @@ def play_round(screen, jedi, darkside, light_saber, life_surface, life_num, scor
 
         darkside.move()
 
-        # Hard mode: enemy shoots back
         if hasattr(darkside, 'shoot'):
             darkside.shoot()
             darkside.update_bullets()
@@ -90,9 +90,18 @@ def play_round(screen, jedi, darkside, light_saber, life_surface, life_num, scor
         hits = CollisionDetector.check_bullet_hits(jedi, darkside)
         score += hits * 10
 
-        if CollisionDetector.check_enemy_reached_player(jedi, darkside):
-            life_num -= 1
+        # Check enemy bullets hitting jedi (hard mode)
+        hit_by_bullet = CollisionDetector.check_enemy_bullets_hit_jedi(jedi, darkside)
 
+        # Check enemy reaching player
+        enemy_reached = CollisionDetector.check_enemy_reached_player(jedi, darkside)
+
+        if hit_by_bullet or enemy_reached:
+            life_num -= 1
+            CollisionDetector.draw_explosions(screen.game_screen)
+            pygame.display.update()
+            pygame.time.wait(CollisionDetector.EXPLOSION_DURATION)
+            
             pygame.draw.rect(screen.game_screen, (0, 0, 0), (life_surface.get_width(), 0, 3 * 28, 48))
             for i in range(life_num):
                 screen.game_screen.blit(light_saber, (life_surface.get_width() + 5 + i * ICON_SIZE_SMALL, 10))
@@ -112,7 +121,7 @@ def play_round(screen, jedi, darkside, light_saber, life_surface, life_num, scor
                 pygame.time.wait(3000)
             else:
                 darkside.winning_message(screen, game_over=True)
-                game_over_msg, _ = GAME_FONT.render("Game Over!", (188, 30, 34), size=52)
+                game_over_msg, _ = GAME_FONT.render("Game over!", (188, 30, 34), size=52)
                 screen.game_screen.blit(game_over_msg, (SCREEN_WIDTH // 2 - game_over_msg.get_width() // 2, SCREEN_HEIGHT // 2 - 200))
                 death_msg, _ = GAME_FONT.render("DEAD", (188, 30, 34), size=28)
                 screen.game_screen.blit(death_msg, (life_surface.get_width() + 5, 10))
@@ -121,6 +130,10 @@ def play_round(screen, jedi, darkside, light_saber, life_surface, life_num, scor
             return score, life_num, 'life_lost'
 
         if len(darkside.fleet) == 0:
+            CollisionDetector.draw_explosions(screen.game_screen)
+            pygame.display.update()
+            pygame.time.wait(CollisionDetector.EXPLOSION_DURATION)
+
             jedi.winning_message(screen)
             pygame.display.update()
             pygame.time.wait(3000)

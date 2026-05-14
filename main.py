@@ -3,6 +3,7 @@ from config import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_FONT
 from screen import GameScreen
 from jedi import Jedi
 from dark_side import DarkSide
+from dark_side_hard import DarkSideHard
 from game_control import play_game
 from start_screen import show_start_screen
 
@@ -17,12 +18,13 @@ win.fill((0, 0, 0))
 loading, _ = GAME_FONT.render("loading...", (255, 232, 31), size=32)
 win.blit(loading, (SCREEN_WIDTH // 2 - loading.get_width() // 2, SCREEN_HEIGHT // 2))
 pygame.display.flip()
-for _ in range(35):
+for _ in range(25):
     pygame.event.pump()
-    pygame.time.wait(35)
+    pygame.time.wait(25)
 
 
 DarkSide.load_class_assets()
+DarkSideHard.load_class_assets()
 Jedi.load_class_assets()
 
 screen = GameScreen()

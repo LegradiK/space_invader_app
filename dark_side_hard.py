@@ -3,8 +3,8 @@ import random
 from config import SCREEN_WIDTH, SCREEN_HEIGHT
 from dark_side import DarkSide
 
-BULLET_SPEED = 6
-SHOOT_INTERVAL_MS = 1200  # a random enemy fires every ~1.2 seconds
+BULLET_SPEED = 5
+SHOOT_INTERVAL_MS = 1500  # a random enemy fires every ~1.2 seconds
 
 class DarkSideHard(DarkSide):
     bomber_image = None
@@ -12,11 +12,11 @@ class DarkSideHard(DarkSide):
     @classmethod
     def load_class_assets(cls):
         super().load_class_assets()
-        img = pygame.image.load("static/tie-bomber.png").convert_alpha()
+        img = pygame.image.load("static/tie-fighter.png").convert_alpha()
         cls.bomber_image = pygame.transform.scale(img, (DarkSide.ICON_SIZE, DarkSide.ICON_SIZE))
 
     def __init__(self):
-        super().__init__(speed=7, rows=5)
+        super().__init__(speed=2.5, rows=5)
         self.bullets = []           # each bullet: [x, y]
         self.last_shot_ms = 0
 
@@ -30,7 +30,12 @@ class DarkSideHard(DarkSide):
             return
         now = pygame.time.get_ticks()
         if now - self.last_shot_ms > SHOOT_INTERVAL_MS:
-            shooter = random.choice(self.fleet)
+            bottom_enemies = {}
+            for pos in self.fleet:
+                col = pos[0]
+                if col not in bottom_enemies or pos[1] > bottom_enemies[col][1]:
+                    bottom_enemies[col] = pos
+            shooter = random.choice(list(bottom_enemies.values()))
             bullet_x = shooter[0] + DarkSide.ICON_SIZE // 2 - 3
             bullet_y = shooter[1] + DarkSide.ICON_SIZE
             self.bullets.append([bullet_x, bullet_y])
