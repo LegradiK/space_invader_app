@@ -1,6 +1,6 @@
 import pygame
 import random
-from config import SCREEN_WIDTH, SCREEN_HEIGHT
+from config import SCREEN_HEIGHT
 from dark_side import DarkSide
 
 BULLET_SPEED = 5

@@ -8,13 +8,13 @@ class Jedi:
     BULLET_COOLDOWN = 900   
 
     luke = None
-    padme = None
+    leia = None
 
     @classmethod
     def load_class_assets(cls):
         """Call once after pygame.init() to load shared class-level images."""
-        cls.padme = pygame.image.load("static/padme.png").convert_alpha()
-        cls.padme = pygame.transform.scale(cls.padme, (Jedi.ICON_SIZE, Jedi.ICON_SIZE))
+        cls.leia = pygame.image.load("static/leia.png").convert_alpha()
+        cls.leia = pygame.transform.scale(cls.leia, (Jedi.ICON_SIZE, Jedi.ICON_SIZE))
         cls.luke = pygame.image.load("static/luke.png").convert_alpha()
         cls.luke = pygame.transform.scale(cls.luke, (Jedi.ICON_SIZE, Jedi.ICON_SIZE))
 
@@ -75,7 +75,7 @@ class Jedi:
             (start_x + Jedi.ICON_SIZE + gap, center_y + Jedi.ICON_SIZE // 2 - text_surface.get_height() // 2)
         )
         screen.game_screen.blit(
-            Jedi.padme,
+            Jedi.leia,
             (start_x + Jedi.ICON_SIZE + gap + text_surface.get_width() + gap, center_y)
         )
 

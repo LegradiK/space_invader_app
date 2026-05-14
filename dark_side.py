@@ -11,7 +11,7 @@ class DarkSide:
     def load_class_assets(cls):
         cls.droid = pygame.image.load("static/droid.png").convert_alpha()
         cls.droid = pygame.transform.scale(cls.droid, (cls.ICON_SIZE, cls.ICON_SIZE))
-        cls.darth_vader = pygame.image.load("static/dark.png").convert_alpha()
+        cls.darth_vader = pygame.image.load("static/darthvader.png").convert_alpha()
         cls.darth_vader = pygame.transform.scale(cls.darth_vader, (cls.ICON_SIZE, cls.ICON_SIZE))
 
     def __init__(self, speed=1.6, rows=5):
