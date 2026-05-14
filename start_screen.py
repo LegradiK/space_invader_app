@@ -19,8 +19,8 @@ def show_start_screen(screen):
         screen.game_screen.blit(title, (SCREEN_WIDTH // 2 - title.get_width() // 2, 80))
         screen.game_screen.blit(subtitle, (SCREEN_WIDTH // 2 - subtitle.get_width() // 2, 170))
 
-        instr1, _ = GAME_FONT.render("Select difficulty LEFT and RIGHT arrows", (180, 180, 180), size=22)
-        instr2, _ = GAME_FONT.render("Press SPACE or ENTER to start", (180, 180, 180), size=22)
+        instr1, _ = GAME_FONT.render("Select difficulty with left and right arrows", (180, 180, 180), size=22)
+        instr2, _ = GAME_FONT.render("Press space or enter to start", (180, 180, 180), size=22)
         screen.game_screen.blit(instr1, (SCREEN_WIDTH // 2 - instr1.get_width() // 2, 250))
         screen.game_screen.blit(instr2, (SCREEN_WIDTH // 2 - instr2.get_width() // 2, 280))
 
@@ -37,22 +37,22 @@ def show_start_screen(screen):
             border_color = (255, 232, 31) if is_selected else (120, 120, 120)
             pygame.draw.rect(screen.game_screen, color, (x, button_y, button_w, button_h), border_radius=8)
             pygame.draw.rect(screen.game_screen, border_color, (x, button_y, button_w, button_h), 2, border_radius=8)
-            text, _ = GAME_FONT.render(label, (255, 255, 255), size=28)
+            text, _ = GAME_FONT.render(label.lower(), (255, 255, 255), size=28)
             screen.game_screen.blit(text, (
                 x + button_w // 2 - text.get_width() // 2,
                 button_y + button_h // 2 - text.get_height() // 2
             ))
 
         desc_lines = {
-            'EASY':   ["3 rows of enemies"],
-            'MEDIUM': ["5 rows of enemies"],
-            'HARD':   ["5 rows of enemies", "Tie Bombers that shoot"],
+            'easy':   ["3 rows of enemies"],
+            'medium': ["5 rows of enemies"],
+            'hard':   ["5 rows of enemies", "Tie Bombers that shoot"],
         }
-        for j, line in enumerate(desc_lines[options[selected]]):
+        for j, line in enumerate(desc_lines[options[selected].lower()]):
             desc, _ = GAME_FONT.render(line, (200, 200, 200), size=22)
             screen.game_screen.blit(desc, (
                 SCREEN_WIDTH // 2 - desc.get_width() // 2,
-                button_y + button_h + 20 + j * 30
+                button_y + button_h + 50 + j * 30
             ))
 
         pygame.display.update()

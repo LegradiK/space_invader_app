@@ -4,7 +4,7 @@ from config import SCREEN_WIDTH, SCREEN_HEIGHT
 class GameScreen:
     def __init__(self):
         # setting up screen
-        self.game_screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.game_screen = pygame.display.get_surface()
         self.background_image = None
         self.clock = pygame.time.Clock()
 
