@@ -43,6 +43,7 @@ space_invader_app/
 - Class-level assets (e.g. `droid`, `darthvader`, `tie-fighter`) are loaded once via `load_class_assets()` before the game loop to avoid per-frame I/O
 - `CollisionDetector` is fully static — no instantiation needed; explosions are tracked in a class-level list with timestamps for duration-based rendering
 - Hard mode bullets are fired only from the bottom-most enemy in each column, determined by grouping fleet positions by x coordinate each frame
+- Player shooting is preprogrammed — the starfighter fires automatically on a fixed interval each frame rather than requiring manual input, keeping focus on movement and survival
 
 ---
 

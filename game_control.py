@@ -4,6 +4,7 @@ from jedi import Jedi
 from dark_side import DarkSide
 from dark_side_hard import DarkSideHard
 from collision_detector import CollisionDetector
+from start_screen import show_start_screen
 
 ICON_SIZE_SMALL = 24
 
@@ -52,7 +53,8 @@ def wait_for_replay(screen, game_over=False):
                         screen.game_screen.blit(starting_msg, (x, y))
                     pygame.display.update()
                     pygame.time.wait(3000)
-                    return True
+                    new_difficulty = show_start_screen(screen)
+                    return new_difficulty
 
 
 def play_round(screen, jedi, darkside, light_saber, life_surface, life_num, score, clock):
@@ -167,5 +169,7 @@ def play_game(screen, light_saber, life_surface, clock, difficulty):
                 break
 
             if life_num <= 0:
-                if not wait_for_replay(screen, game_over=True):
+                new_difficulty = wait_for_replay(screen, game_over=True)
+                if not new_difficulty:
                     return
+                difficulty = new_difficulty
