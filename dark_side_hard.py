@@ -3,7 +3,7 @@ import random
 from config import SCREEN_HEIGHT
 from dark_side import DarkSide
 
-BULLET_SPEED = 5
+BULLET_SPEED = 3
 SHOOT_INTERVAL_MS = 1500  # a random enemy fires every ~1.2 seconds
 
 class DarkSideHard(DarkSide):
